@@ -18,7 +18,7 @@ def main():
                         dest='android',
                         help='Specify the Android version to build',
                         default='11.0.0',
-                        choices=['13.0.0', '12.0.0', '12.0.0_64only', '11.0.0', '10.0.0', '9.0.0', '8.1.0'])
+                        choices=['14.0.0_64only', '13.0.0', '12.0.0', '12.0.0_64only', '11.0.0', '10.0.0', '9.0.0', '8.1.0'])
     parser.add_argument('-g', '--install-gapps',
                         dest='gapps',
                         help='Install OpenGapps to ReDroid',
@@ -49,7 +49,7 @@ def main():
         dockerfile = dockerfile + "COPY gapps /\n"
         tags.append("gapps")
     if args.ndk:
-        if args.android in ["11.0.0", "12.0.0", "12.0.0_64only"]:
+        if args.android in ["11.0.0", "12.0.0", "12.0.0_64only", "14.0.0_64only"]:
             arch = helper.host()[0]
             if arch == "x86" or arch == "x86_64":
                 Ndk().install()
@@ -57,7 +57,7 @@ def main():
                 tags.append("ndk")
         else:
             helper.print_color(
-                "WARNING: Libndk seems to work only on redroid:11.0.0 or redroid:12.0.0", helper.bcolors.YELLOW)
+                "WARNING: Libndk seems to work only on redroid:11.0.0, redroid:12.0.0, or redroid:14.0.0_64only", helper.bcolors.YELLOW)
     if args.magisk:
         Magisk().install()
         dockerfile = dockerfile+"COPY magisk /\n"
